@@ -34,10 +34,10 @@ namespace ForceOne
                 {
                     int idx = Int32.Parse(Request.QueryString["idx"].ToString());
 
-                    //string dt = Request.QueryString["date"].ToString();
+                    string dt = Request.QueryString["date"].ToString();
 
                     ForceOneDAL dal = new ForceOneDAL();
-                    //List<vwschedule>scheds= dal.GetSchedulesByIDf_Date(idf, dt);
+                    List<vwschedule>scheds= dal.GetSchedulesByIDf_Date(idf, dt);
                     vwschedule sched = dal.GetScheduleByIDx(idx);
                     List<vwschedule> scheds = new List<vwschedule>();
                     scheds.Add(sched);
@@ -79,7 +79,7 @@ namespace ForceOne
 
                 try
                 {
-                    //LinkButton btn = (LinkButton)e.Item.FindControl("btnSurvey");
+                    LinkButton btn = (LinkButton)e.Item.FindControl("btnSurvey");
 
                     if (((vwschedule)e.Item.DataItem).surveyv.Value == false)
                     {
@@ -87,19 +87,19 @@ namespace ForceOne
                         myDiv.Style["display"] = "none";
 
 
-                        //if(btn!=null)
-                        //{
-                        //    btn.Visible = false;
-                        //}
+                        if(btn!=null)
+                        {
+                            btn.Visible = false;
+                        }
                     }
                     else
                     {
-                        //if(btn!=null)
-                        //{
-                        //btn.OnClientClick= "window.location.href='surveyanswer.aspx?jobnum=" + ((vwschedule)e.Item.DataItem).jobnum.ToString() + "&idx=" + ((vwschedule)e.Item.DataItem).idx.ToString() + "'";
-                        //btn.Attributes.Add("href", "surveyanswer.aspx?jobnum=" + ((vwschedule)e.Item.DataItem).jobnum.ToString() + "&idx=" + ((vwschedule)e.Item.DataItem).idx.ToString() + "");
-                        //    btn.Visible = true;
-                        //}
+                        if(btn!=null)
+                        {
+                        btn.OnClientClick= "window.location.href='surveyanswer.aspx?jobnum=" + ((vwschedule)e.Item.DataItem).jobnum.ToString() + "&idx=" + ((vwschedule)e.Item.DataItem).idx.ToString() + "'";
+                        btn.Attributes.Add("href", "surveyanswer.aspx?jobnum=" + ((vwschedule)e.Item.DataItem).jobnum.ToString() + "&idx=" + ((vwschedule)e.Item.DataItem).idx.ToString() + "");
+                            btn.Visible = true;
+                        }
                     }
                 }
                 catch { }
@@ -197,7 +197,6 @@ namespace ForceOne
                     lblTimeOut.Visible = true;
                     if (timeout == DateTime.MinValue)
                     {
-                        //txtTimeIn.Enabled = false;
                         btnClock.Text = "Clock Out";
                         btnClock.CommandName = "Clock-out";
                         btnClock.CssClass = "btn btn-success timeclock";
@@ -206,7 +205,6 @@ namespace ForceOne
                     }
                     else
                     {
-                        //txtTimeIn.Enabled = false;
                         txtTimeOut.Enabled = true;
                         btnClock.Enabled = true;
                         btnClock.CommandName = "Survey";
@@ -217,8 +215,6 @@ namespace ForceOne
                     btnClock.Enabled = true;
                     // Not a survey
                 }
-
-                /* No longer necessary 5/17/2023 - NJS
                 if ( !timeout.Equals(DateTime.MinValue) && !timein.Equals( DateTime.MinValue) && !IsPostBack)
                 {
                     Label lblDays = (Label)e.Item.FindControl("lblDays");
@@ -231,7 +227,7 @@ namespace ForceOne
                     lblHours.Text = t.Hours.ToString();
                     lblMinutes.Text = t.Minutes.ToString();
                 }
-                */
+                
                 TimeSpan timeSpanin = new TimeSpan(timein.Hour, timein.Minute, timein.Second);
                 TimeSpan timeSpanout = new TimeSpan(timeout.Hour, timeout.Minute, timeout.Second);
                 if (timein > DateTime.MinValue)
@@ -246,22 +242,11 @@ namespace ForceOne
 
 
                 // If they have clocked in - Clock in
-
-
-
-                /*
-                 * 
-                 * 
-                 * 
-                 * HiddenField hidsurveyv = (HiddenField)e.Item.FindControl("hidSurveyV");
+                HiddenField hidsurveyv = (HiddenField)e.Item.FindControl("hidSurveyV");
                     if (bool.Parse(hidsurveyv.Value.ToString()))
                     {
                         Response.Redirect("surveyanswer.aspx?jobnum=" + hidJobNum.Value.ToString() + "&idx=" + idx.ToString());
                     }
-                 * 
-                 * 
-                 */
-                /*
                 try
                 {
                     if((drpTimeOutHH.Items.FindByText(Convert.ToString(fTime.HH(txtTimeIn.Text))))!= null) {
@@ -317,7 +302,6 @@ namespace ForceOne
                 catch
                 {
                 }
-                */
             }
         }
         void UploadPhoto(int jobnum, int idx, RepeaterCommandEventArgs e)
@@ -431,10 +415,10 @@ namespace ForceOne
                 diff = timeout.Subtract(timein);
             }
 
-            //if (timeout < timein)
-            //{
-            //    timeout = timeout.AddDays(1);
-            //}
+            if (timeout < timein)
+            {
+                timeout = timeout.AddDays(1);
+            }
 
             if (expectedworkhours == 0)
             {
@@ -531,7 +515,7 @@ namespace ForceOne
             }
             else
             {
-                //Response.Redirect("jobentry.aspx");
+                Response.Redirect("jobentry.aspx");
             }
         }
 
